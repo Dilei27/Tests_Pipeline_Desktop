@@ -13,4 +13,29 @@ jobs:
     - name: Checkout do código
       uses: actions/checkout@v2
 
-    # Adicione os passos adicionais aqui
+name: Configurar Contêiner Docker
+      run: |
+        docker build -t meu-container-de-automacao .
+        docker run -d --name meu-container-de-automacao meu-container-de-automacao
+      # Este é um exemplo simples. Você precisará adaptar para suas necessidades reais.
+
+    - name: Instalar Dependências
+      run: |
+        # Instale suas dependências, como o Robot Framework e o SikuliX, dentro do contêiner.
+        docker exec meu-container-de-automacao pip install robotframework
+        # Adicione comandos para outras dependências conforme necessário.
+
+    - name: Executar Automação
+      run: |
+        # Execute seus scripts de automação dentro do contêiner.
+        docker exec meu-container-de-automacao robot scripts/meus-testes.robot
+        # Substitua "scripts/meus-testes.robot" pelo caminho para o seu arquivo de automação.
+
+    - name: Encerrar Contêiner
+      run: |
+        docker stop meu-container-de-automacao
+        docker rm meu-container-de-automacao
+      # Encerre e remova o contêiner quando terminar.
+
+    - name: Publicar Resultados (opcional)
+      # Adicione comandos para publicar resultados ou relatórios de automação.
