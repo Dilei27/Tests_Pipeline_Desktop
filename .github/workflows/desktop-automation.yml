@@ -1,0 +1,16 @@
+name: Automação de Desktop
+
+on:
+  push:
+    branches:
+      - main  # Tests_Pipeline_Desktop
+
+jobs:
+  automacao-desktop:
+    runs-on: Windows  # Você pode escolher o sistema operacional adequado
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v2
+
+    # Adicione os passos adicionais aqui
