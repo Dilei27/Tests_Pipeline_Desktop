@@ -1,30 +1,42 @@
-name: Run Robot Framework + SikuliX Tests
+name: Automação de Desktop
 
 on:
   push:
     branches:
-      - main  # Defina a branch que disparará a pipeline
+      - Tests_Pipeline_Desktop  # Substitua pelo nome da sua branch principal
 
 jobs:
-  run-tests:
-    runs-on: self-hosted  # Use o runner self-hosted configurado na máquina Windows
+  automacao-desktop:
+    runs-on: windows-latest  # Use windows-latest para ambiente Windows
 
     steps:
-    - name: Checkout repository
+    - name: Checkout do código
       uses: actions/checkout@v2
 
-    - name: Set up Python
+    - name: Configurar Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # Defina a versão do Python que você precisa
+        python-version: 3.x  # Substitua 'x' pela versão do Python que você está usando
 
-    - name: Install dependencies
+    - name: Instalar Dependências Python
       run: |
         pip install robotframework
-        # Instale as outras dependências necessárias aqui
+        pip install robotframework-sikulilibrary
+        # Adicione outras dependências Python, se necessário
 
-    - name: Run tests
+    - name: Configurar SikuliX
       run: |
-        robot path\to\your\tests
-        # Substitua "path\to\your\tests" pelo caminho real para seus testes no formato Windows
+        # Faça o download do SikuliX e configure-o
+        # Exemplo:
+        wget https://launchpad.net/sikuli/sikulix/2.0.4/+download/sikulixsetup-2.0.4.jar -O sikulixsetup-2.0.4.jar
+        java -jar sikulixsetup-2.0.4.jar
 
+    - name: Executar Automação de Desktop
+      run: |
+        # Execute seus scripts de automação de desktop aqui
+        # Exemplo:
+        robot meus-testes.robot
+        # Substitua 'meus-testes.robot' pelo nome do seu arquivo de automação
+
+    - name: Publicar Resultados (opcional)
+      # Adicione comandos para publicar resultados ou relatórios de automação
