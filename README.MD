@@ -1,15 +1,11 @@
 # Regressão criação CRUD
 
 
-### Cadastro
+### Teste Desktop 
 
-- [X] Deve ter um acesso válido ao Módulo UAU - Obras
-- [X] Deve Criar Nova Pessoa preenchendo os campos Obrigatórios 
-- [X] Deve editar dados e salvar
-- [X] Deve excluir Pessoa
-- [X] Deve criar Nova Pessoa e Vincular Arquivo
-
-
+- [X] Deve acessar o Notepad++
+- [X] Deve gerar um número aleatório e inserir no NOtepad++
+- [X] Deve Copiar este número e alterar na coluna da Planilha
 
 ## 🚀 Tecnologias
 
