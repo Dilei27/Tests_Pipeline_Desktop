@@ -22,18 +22,11 @@ jobs:
         pip install robotframework-sikulilibrary
         # Adicione outras dependências Python, se necessário
 
-    - name: Configurar SikuliX
-      run: |
-        # Faça o download do SikuliX e configure-o
-        # Exemplo:
-        wget https://launchpad.net/sikuli/sikulix/2.0.4/+download/sikulixsetup-2.0.4.jar -O sikulixsetup-2.0.4.jar
-        java -jar sikulixsetup-2.0.4.jar
-
     - name: Executar Automação de Desktop
       run: |
         # Execute seus scripts de automação de desktop aqui
         # Exemplo:
-        robot meus-testes.robot
+        robot -d ./logs .\tests
         # Substitua 'meus-testes.robot' pelo nome do seu arquivo de automação
 
     - name: Publicar Resultados (opcional)
