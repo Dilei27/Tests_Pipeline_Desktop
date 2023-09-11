@@ -1,5 +1,3 @@
-name: Automação de Desktop
-
 on:
   push:
     branches:
@@ -16,7 +14,7 @@ jobs:
     - name: Configurar Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # Substitua 'x' pela versão do Python que você está usando
+        python-version: 3.8  # Substitua 'x' pela versão do Python que você está usando
 
     - name: Instalar Dependências Python
       run: |
