@@ -11,6 +11,15 @@ jobs:
     - name: Checkout do código
       uses: actions/checkout@v2
 
+    - name: Configurar JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11  # Substitua pela versão do JDK que você precisa
+
+    - name: Definir DISPLAY
+      run: |
+        export DISPLAY=:99  # Use o número de exibição adequado, se necessário
+
     - name: Configurar Python
       uses: actions/setup-python@v2
       with:
@@ -25,9 +34,9 @@ jobs:
     - name: Executar Automação de Desktop
       run: |
         # Execute seus scripts de automação de desktop aqui
-        # Exemplo:
-        robot -d ./logs .\tests
+        # Certifique-se de que o Sikuli esteja configurado corretamente em seu ambiente
         # Substitua 'meus-testes.robot' pelo nome do seu arquivo de automação
+        robot -d ./logs .\tests\meus-testes.robot
 
     - name: Publicar Resultados (opcional)
       # Adicione comandos para publicar resultados ou relatórios de automação
