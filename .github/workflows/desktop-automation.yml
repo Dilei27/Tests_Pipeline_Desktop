@@ -1,29 +1,29 @@
 on:
   push:
     branches:
-      - Tests_Pipeline_Desktop  # Substitua pelo nome da sua branch principal
+      - Tests_Pipeline_Desktop
 
 jobs:
   automacao-desktop:
-    runs-on: windows-latest  # Use windows-latest para ambiente Windows
+    runs-on: windows-latest
 
     steps:
     - name: Checkout do código
       uses: actions/checkout@v2
 
-    - name: Configurar JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: 11  # Substitua pela versão do JDK que você precisa
-
-    - name: Definir DISPLAY
-      run: |
-        export DISPLAY=:99  # Use o número de exibição adequado, se necessário
-
     - name: Configurar Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8  # Substitua 'x' pela versão do Python que você está usando
+        python-version: 3.8
+
+    - name: Criação do Ambiente Virtual
+      run: python -m venv venv
+      working-directory: ${EXECDIR}\\resources\\elements  # Substitua pelo caminho correto para o seu projeto
+
+    - name: Ativar Ambiente Virtual
+      run: |
+        source venv/Scripts/activate  # Para Windows
+        # ou use o comando adequado para ativar o ambiente virtual no seu sistema
 
     - name: Instalar Dependências Python
       run: |
@@ -33,10 +33,9 @@ jobs:
 
     - name: Executar Automação de Desktop
       run: |
-        # Execute seus scripts de automação de desktop aqui
-        # Certifique-se de que o Sikuli esteja configurado corretamente em seu ambiente
-        # Substitua 'meus-testes.robot' pelo nome do seu arquivo de automação
         robot -d ./logs .\tests\meus-testes.robot
 
+    - name: Desativar Ambiente Virtual
+      run: deactivate  # Desativa o ambiente virtual
+
     - name: Publicar Resultados (opcional)
-      # Adicione comandos para publicar resultados ou relatórios de automação
