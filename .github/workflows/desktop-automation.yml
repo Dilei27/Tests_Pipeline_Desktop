@@ -1,3 +1,5 @@
+name: Automação de Desktop
+
 on:
   push:
     branches:
@@ -18,11 +20,11 @@ jobs:
 
     - name: Criação do Ambiente Virtual
       run: python -m venv venv
-      working-directory: ${EXECDIR}\\resources\\elements  # Substitua pelo caminho correto para o seu projeto
+      working-directory: ${EXECDIR}\\resources\\elements
 
     - name: Ativar Ambiente Virtual
       run: |
-        source venv/Scripts/activate  # Para Windows
+        source venv/Scripts/activate
         # ou use o comando adequado para ativar o ambiente virtual no seu sistema
 
     - name: Instalar Dependências Python
@@ -36,6 +38,7 @@ jobs:
         robot -d ./logs .\tests\meus-testes.robot
 
     - name: Desativar Ambiente Virtual
-      run: deactivate  # Desativa o ambiente virtual
+      run: deactivate
 
     - name: Publicar Resultados (opcional)
+
