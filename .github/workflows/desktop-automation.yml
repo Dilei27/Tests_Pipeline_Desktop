@@ -33,12 +33,19 @@ jobs:
         pip install robotframework-sikulilibrary
         # Adicione outras dependências Python, se necessário
 
+    - name: Login no Docker Hub
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+    - name: Puxar a Imagem Docker
+      run: docker pull dilei27/curious:tag
+
     - name: Executar Automação de Desktop
       run: |
-        robot -d ./logs .\tests\meus-testes.robot
+        docker run --rm -v %cd%:/workspace seu-usuario/sua-imagem:tag
+      working-directory: /workspace
 
     - name: Desativar Ambiente Virtual
       run: deactivate
 
     - name: Publicar Resultados (opcional)
-
