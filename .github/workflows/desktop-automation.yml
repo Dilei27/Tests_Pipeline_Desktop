@@ -1,51 +1,37 @@
-name: Automação de Desktop
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
-on:
-  push:
-    branches:
-      - Tests_Pipeline_Desktop
+trigger:
+- main
 
-jobs:
-  automacao-desktop:
-    runs-on: windows-latest
+pool:
+  vmImage: windows-latest
+strategy:
+  matrix:
+    Python38:
+      python.version: '3.8'
 
-    steps:
-    - name: Checkout do código
-      uses: actions/checkout@v2
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(python.version)'
+  displayName: 'Use Python $(python.version)'
 
-    - name: Configurar Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+    rfbrowser init
+  displayName: 'Install dependencies'
 
-    - name: Criação do Ambiente Virtual
-      run: python -m venv venv
-      working-directory: ${EXECDIR}\\resources\\elements
+- script: |
+    robot -d ./logs -x output-xunit.xml tests
+  continueOnError: true
+  displayName: 'Run UI Tests'
 
-    - name: Ativar Ambiente Virtual
-      run: |
-        source venv/Scripts/activate
-        # ou use o comando adequado para ativar o ambiente virtual no seu sistema
-
-    - name: Instalar Dependências Python
-      run: |
-        pip install robotframework
-        pip install robotframework-sikulilibrary
-        # Adicione outras dependências Python, se necessário
-
-    - name: Login no Docker Hub
-      run: |
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-    - name: Puxar a Imagem Docker
-      run: docker pull dilei27/curious:tag
-
-    - name: Executar Automação de Desktop
-      run: |
-        docker run --rm -v %cd%:/workspace seu-usuario/sua-imagem:tag
-      working-directory: /workspace
-
-    - name: Desativar Ambiente Virtual
-      run: deactivate
-
-    - name: Publicar Resultados (opcional)
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'logs/output-xunit.xml'
+  displayName: 'Publish Test Results'
